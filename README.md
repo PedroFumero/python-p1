@@ -1,1 +1,1 @@
-# Electiva de Programación con Pythob - Proyecto #1
+# Electiva de Programación con Python - Proyecto #1
