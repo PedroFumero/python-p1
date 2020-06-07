@@ -1,0 +1,26 @@
+COMIENZO_PEDIDO
+Rosa Quiñones;05/06/2020
+personal
+FIN_PEDIDO
+COMIENZO_PEDIDO
+Luis Gómez;06/06/2020
+personal;champiñones
+FIN_PEDIDO
+COMIENZO_PEDIDO
+Carlos Valderrama;06/06/2020
+mediana;champiñones;jamón;pimentón
+FIN_PEDIDO
+COMIENZO_PEDIDO
+María Valdéz;06/06/2020
+mediana;champiñones;jamón;pimentón
+familiar;doble queso;aceitunas;pepperoni
+familiar;champiñones;pimentón;aceitunas
+FIN_PEDIDO
+COMIENZO_PEDIDO
+Rosa Quiñones;06/06/2020
+personal;doble queso;jamon
+FIN_PEDIDO
+COMIENZO_PEDIDO
+Carmen Sarmiento;06/06/2020
+familiar;jamon;jamon;peppperoni;salchichon
+FIN_PEDIDO
