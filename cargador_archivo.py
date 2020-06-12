@@ -1,10 +1,16 @@
 class Manejador:
-
+    """
+    Incluye toda la lógica para la carga del archivo .pz
+    """
     def __init__(self):
         self.lista_pedidos = None
     
 
     def cargarArchivo(self):
+        """
+        Encargado de realizar el procesamiento de carga. Retorna un diccionario con los pedidos.
+        """
+        # TODO faltan lan validaciones, actualmente no cuenta con ninguna
         pedidos = []
         # Se lee el archivo
         lector = open('misc/pedidos1.pz', encoding="utf-8")

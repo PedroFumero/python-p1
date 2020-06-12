@@ -1,49 +1,80 @@
 class PizzaBase:
-    def detalle(self, precio):
-        # print('Tipo de pizza: ')
-        if(isinstance(self, PizzaPersonal)):
-            print(f'Pizza personal, el precio es: {precio}')
-        elif(isinstance(self, PizzaMediana)):
-            print(f'Pizza mediana, el precio es: {precio}')
-        elif(isinstance(self, PizzaFamiliar)):
-            print(f'Pizza familiar, el precio es: {precio}')
-            
-    
+    """
+    Pizza base, con métodos comúnes
+    """
         
+    def calcularPrecio(self, precio, precios, ingredientes):
+        """
+        Retorna el precio final de cada pizza incluyendo la suma de sus ingredientes.
+        """
+        
+        # print(precios, ingredientes)
+        for ingrediente in ingredientes:
+            if ingrediente in precios.keys():
+                precio += precios[ingrediente]
+        # print(f'Pizza personal, con ingredientes adicionales: {ingredientes} = {precio}')
+        return precio
 
 class PizzaPersonal(PizzaBase):
+    """
+    Pizza personal de valor 10um (Base)
+    """
     
-    def __init__(self, hola):
-        self.precio = 10
-        self.ingredientes = []
-        print(hola)
-        
-    def detalle(self):
-        super().detalle(self.precio)
+    def __init__(self, ingredientes):
+        self.ingredientes = ingredientes
+        self.precios_lista = {
+            'jamon': 1.5,
+            'champiñones': 1.75,
+            'pimentón': 1.5,
+            'doble queso': 0.8,
+            'aceitunas': 1.8,
+            'pepperoni': 1.25,
+            'salchichon': 1.6
+        }
+        # print(self.ingredientes)
+        self.precio = self.calcularPrecio(10, self.precios_lista, self.ingredientes)
+        # print(self.precio)
         
 class PizzaMediana(PizzaBase):
+    """
+    Pizza mediana de valor 15um (Base)
+    """
     
-    def __init__(self):
-        self.precio = 15
-        self.ingredientes = []
-        
-    def detalle(self):
-        super().detalle(self.precio)
+    def __init__(self, ingredientes):
+        self.ingredientes = ingredientes
+        self.precios_lista = {
+            'jamon': 1.75,
+            'champiñones': 2.05,
+            'pimentón': 1.75,
+            'doble queso': 1.3,
+            'aceitunas': 2.15,
+            'pepperoni': 1.7,
+            'salchichon': 1.85
+        }
+        # print(self.ingredientes)
+        self.precio = self.calcularPrecio(15, self.precios_lista, self.ingredientes)
+        # print(self.precio)
 
 class PizzaFamiliar(PizzaBase):
+    """
+    Pizza mediana de valor 20um (Base)
+    """
     
-    def __init__(self):
-        self.precio = 20
-        self.ingredientes = []
-    
-    def detalle(self):
-        super().detalle(self.precio)
+    def __init__(self, ingredientes):
+        self.ingredientes = ingredientes
+        self.precios_lista = {
+            'jamon': 2,
+            'champiñones': 2.5,
+            'pimentón': 2,
+            'doble queso': 1.7,
+            'aceitunas': 2.6,
+            'pepperoni': 1.9,
+            'salchichon': 2.1
+        }
+        # print(self.ingredientes)
+        self.precio = self.calcularPrecio(20, self.precios_lista, self.ingredientes)
+        # print(self.precio)
+        
+    # * Así se pude utilizar un método de la súper clase en python
+    # super().detalle(self.precio)
 
-# pizza1 = PizzaPersonal()
-# pizza1.detalle()
-
-# pizza2 = PizzaMediana()
-# pizza2.detalle()
-
-# pizza3 = PizzaFamiliar()
-# pizza3.detalle()
