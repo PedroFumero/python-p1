@@ -1,5 +1,6 @@
 from cargador_archivo import Manejador
 from procesador_ordenes import ProcesadorOrdenes
+from generador_resumen import Resumen
 
 ruta_archivo = Manejador().getRutaArchivo()
 pedidos = Manejador().cargarArchivo(ruta_archivo)
@@ -7,4 +8,4 @@ pedidos = Manejador().cargarArchivo(ruta_archivo)
 
 
 total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
-print(total_ordenes)
+Resumen(total_ordenes).mostrarResumen()
