@@ -29,7 +29,7 @@ class PizzaPersonal(PizzaBase):
             'doble queso': 0.8,
             'aceitunas': 1.8,
             'pepperoni': 1.25,
-            'salchichon': 1.6
+            'salchichón': 1.6
         }
         # print(self.ingredientes)
         self.precio = self.calcularPrecio(10, self.precios_lista, self.ingredientes)
@@ -49,7 +49,7 @@ class PizzaMediana(PizzaBase):
             'doble queso': 1.3,
             'aceitunas': 2.15,
             'pepperoni': 1.7,
-            'salchichon': 1.85
+            'salchichón': 1.85
         }
         # print(self.ingredientes)
         self.precio = self.calcularPrecio(15, self.precios_lista, self.ingredientes)
@@ -63,13 +63,13 @@ class PizzaFamiliar(PizzaBase):
     def __init__(self, ingredientes):
         self.ingredientes = ingredientes
         self.precios_lista = {
-            'jamon': 2,
+            'jamón': 2,
             'champiñones': 2.5,
             'pimentón': 2,
             'doble queso': 1.7,
             'aceitunas': 2.6,
             'pepperoni': 1.9,
-            'salchichon': 2.1
+            'salchichón': 2.1
         }
         # print(self.ingredientes)
         self.precio = self.calcularPrecio(20, self.precios_lista, self.ingredientes)
