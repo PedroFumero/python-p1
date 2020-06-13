@@ -1,7 +1,8 @@
 from cargador_archivo import Manejador
 from procesador_ordenes import ProcesadorOrdenes
 
-pedidos = Manejador().cargarArchivo()
+ruta_archivo = Manejador().getRutaArchivo()
+pedidos = Manejador().cargarArchivo(ruta_archivo)
 # print(pedidos)
 
 

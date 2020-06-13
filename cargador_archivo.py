@@ -1,3 +1,5 @@
+import os
+
 class Manejador:
     """
     Incluye toda la lógica para la carga del archivo .pz
@@ -6,14 +8,14 @@ class Manejador:
         self.lista_pedidos = None
     
 
-    def cargarArchivo(self):
+    def cargarArchivo(self, ruta_archivo):
         """
         Encargado de realizar el procesamiento de carga. Retorna un diccionario con los pedidos.
         """
         # TODO faltan las validaciones, actualmente no cuenta con ninguna
         pedidos = []
         # Se lee el archivo
-        lector = open('misc/pedidos1.pz', encoding="utf-8")
+        lector = open(ruta_archivo, encoding="utf-8")
         lectura = lector.readlines()
         # Se elimina \n (salto de linea de cada índice de la lista)
         lectura = [i.rstrip('\n') for i in lectura]
@@ -40,3 +42,20 @@ class Manejador:
                     individual = dato.split(';')
                     self.lista_pedidos[i+1]['pedido'].append(individual)
         return self.lista_pedidos
+
+    @staticmethod
+    def getRutaArchivo():
+        """
+        Pregunta y valida la ruta del archivo con el que se trabajaran los pedidos
+        Retrorna el nombre de un archivo valido
+        """
+        while True:
+            print("Por favor, introduzca el el nombre del archivo. Ej: misc/pedidos1.pz")
+            ruta_archivo = input()
+            if os.path.exists(ruta_archivo):
+                return ruta_archivo
+            else:
+                print(ruta_archivo, "no fue localizado")
+
+
+
