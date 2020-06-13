@@ -1,14 +1,23 @@
-class Resumen:
+class ResumenDelDia:
     """
         Clase que modela el resumen
     """
     def __init__(self,fecha,total,ventasXpizza,ventasXingrediente):
-       self.fecha = fecha,
-       self.total = total,
-       ventasXpizza = ventasXpizza,
-       ventasXingrediente = ventasXingrediente 
+        self.fecha = fecha
+        self.total = total
+        self.ventasXpizza = ventasXpizza
+        self.ventasXingrediente = ventasXingrediente 
+    
+    def mostrarResumen(self):
+        print('Fecha: ' + self.fecha + '\nTotal: ' + str(self.total))
+        print ('\n Pizzas \n')
+        for item in self.ventasXpizza:
+            print (item,':',self.ventasXpizza[item])
+        print ('\n Ingredientes \n')
+        for item in self.ventasXingrediente:
+            print (item,':',self.ventasXingrediente[item])
 
-class generadorResumen():
+class GeneradorResumen():
     """
         Clase que genera el resumen
     """
@@ -25,13 +34,16 @@ class generadorResumen():
                 for campo in pedidos[pedido]:
                     print (campo,':',pedidos[pedido][campo])  
 
-    def generarResumen(self):
+    def generarListaResumen(self):
+        """
+            Funcion que genera el resumen total partiendo de la lista de pedidos agrupada
+        """
         pedidos = self.agruparFecha()
-        fechaRes = None
-        totalRes = 0
-        ventasXpizza = {}
-        ventasXingrediente = {}
+        listaResumen =[]
         for fecha in pedidos.keys():
+            totalRes = 0
+            ventasXpizza = {}
+            ventasXingrediente = {}
             fechaRes = fecha
             for pedido in pedidos[fecha].keys():
                 totalRes += pedidos[fecha][int(pedido)]['precio']
@@ -42,13 +54,17 @@ class generadorResumen():
                     ventasXpizza[tamanio] = 1
                 for ingrediente in pedidos[fecha][int(pedido)]['ingredientes']:
                     if ingrediente in ventasXingrediente.keys():
-                        ventasXingrediente[tamanio] += 1
+                        ventasXingrediente[ingrediente] += 1
                     else:
-                        ventasXingrediente[tamanio] = 1
+                        ventasXingrediente[ingrediente] = 1
+            listaResumen.append(ResumenDelDia(fechaRes,totalRes,ventasXpizza,ventasXingrediente))
 
-        return Resumen(fechaRes,totalRes,ventasXpizza,ventasXingrediente)
+        return listaResumen
 
     def agruparFecha(self):
+        """
+            Funcion que agrupa por fecha los pedidos
+        """
         pedidos = self.pedidos
         resumenAgrupado = {}
         for pedido in pedidos.values():
