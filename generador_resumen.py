@@ -6,13 +6,7 @@ class Resumen:
        self.fecha = fecha,
        self.total = total,
        ventasXpizza = ventasXpizza,
-       ventasXingrediente = ventasXingrediente
-
-    # def generarResumen(self):
-    #     pedidos = self.pedidos   
-    #     resumen = Re
-    #     for pedido in pedidos.values():
-    #         for nombre,fecha,tamanio,ingredientes,precio in pedido.items(): 
+       ventasXingrediente = ventasXingrediente 
 
 class generadorResumen():
     """
@@ -29,4 +23,40 @@ class generadorResumen():
             for pedido in pedidos:
                 print (pedido)
                 for campo in pedidos[pedido]:
-                    print (campo,':',pedidos[pedido][campo])            
+                    print (campo,':',pedidos[pedido][campo])  
+
+    def generarResumen(self):
+        pedidos = self.agruparFecha()
+        fechaRes = None
+        totalRes = 0
+        ventasXpizza = {}
+        ventasXingrediente = {}
+        for fecha in pedidos.keys():
+            fechaRes = fecha
+            for pedido in pedidos[fecha].keys():
+                totalRes += pedidos[fecha][int(pedido)]['precio']
+                tamanio = pedidos[fecha][int(pedido)]['tamanio']
+                if tamanio in ventasXpizza.keys():
+                    ventasXpizza[tamanio] += 1
+                else:
+                    ventasXpizza[tamanio] = 1
+                for ingrediente in pedidos[fecha][int(pedido)]['ingredientes']:
+                    if ingrediente in ventasXingrediente.keys():
+                        ventasXingrediente[tamanio] += 1
+                    else:
+                        ventasXingrediente[tamanio] = 1
+
+        return Resumen(fechaRes,totalRes,ventasXpizza,ventasXingrediente)
+
+    def agruparFecha(self):
+        pedidos = self.pedidos
+        resumenAgrupado = {}
+        for pedido in pedidos.values():
+            fecha = pedido['fecha']
+            if fecha in resumenAgrupado.keys():
+                pos = len(resumenAgrupado[fecha].values())+1 
+                resumenAgrupado[fecha][pos] = pedido               
+            else:
+                resumenAgrupado[fecha] = {}
+                resumenAgrupado[fecha][1] = pedido
+        return resumenAgrupado
