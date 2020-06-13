@@ -17,13 +17,13 @@ class PizzaBase:
 
 class PizzaPersonal(PizzaBase):
     """
-    Pizza personal de valor 10um (Base)
+    Pizza tamaño personal de valor 10um (Base)
     """
     
     def __init__(self, ingredientes):
         self.ingredientes = ingredientes
         self.precios_lista = {
-            'jamon': 1.5,
+            'jamón': 1.5,
             'champiñones': 1.75,
             'pimentón': 1.5,
             'doble queso': 0.8,
@@ -37,13 +37,13 @@ class PizzaPersonal(PizzaBase):
         
 class PizzaMediana(PizzaBase):
     """
-    Pizza mediana de valor 15um (Base)
+    Pizza tamaño mediana de valor 15um (Base)
     """
     
     def __init__(self, ingredientes):
         self.ingredientes = ingredientes
         self.precios_lista = {
-            'jamon': 1.75,
+            'jamón': 1.75,
             'champiñones': 2.05,
             'pimentón': 1.75,
             'doble queso': 1.3,
@@ -57,7 +57,7 @@ class PizzaMediana(PizzaBase):
 
 class PizzaFamiliar(PizzaBase):
     """
-    Pizza mediana de valor 20um (Base)
+    Pizza tamaño familiar de valor 20um (Base)
     """
     
     def __init__(self, ingredientes):
@@ -78,3 +78,4 @@ class PizzaFamiliar(PizzaBase):
     # * Así se pude utilizar un método de la súper clase en python
     # super().detalle(self.precio)
 
+    # TODO algunos ingredientes no son tomados correctamente, debido a que en el archivo algunos tienen acento y otros no: jamón -> jamon, salchichón -> salchichon, otros tienen errores, por ejemplo pepperoni -> peppperoni
