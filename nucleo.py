@@ -8,4 +8,4 @@ pedidos = Manejador().cargarArchivo(ruta_archivo)
 
 
 total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
-Resumen(total_ordenes).mostrarResumen()
+Resumen(total_ordenes).mostrarPedidos()
