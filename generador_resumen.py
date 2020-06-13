@@ -6,5 +6,8 @@ class Resumen:
         self.pedidos = pedidos
 
     def mostrarPedidos(self):
-        for pedido in self.pedidos.keys():
-            print(self.pedidos[pedido])
+        pedidos = self.pedidos   
+        for pedido in pedidos:
+            print (pedido)
+            for campo in pedidos[pedido]:
+                print (campo,':',pedidos[pedido][campo])                
