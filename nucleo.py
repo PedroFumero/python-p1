@@ -12,5 +12,4 @@ total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
 resumenXfecha = GeneradorResumen(total_ordenes).generarListaResumen()
 
 for dia in resumenXfecha:
-    print('\n')
     dia.mostrarResumen()

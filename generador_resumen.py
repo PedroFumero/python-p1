@@ -10,12 +10,12 @@ class ResumenDelDia:
     
     def mostrarResumen(self):
         print('Fecha: ' + self.fecha + '\nTotal: ' + str(self.total))
-        print ('\n Pizzas \n')
-        for item in self.ventasXpizza:
-            print (item,':',self.ventasXpizza[item])
-        print ('\n Ingredientes \n')
-        for item in self.ventasXingrediente:
-            print (item,':',self.ventasXingrediente[item])
+        print ('\nVentas por pizza (sin incluir adicionales):\n')
+        for item in self.ventasXpizza.items():
+            print ('{0:<15} {1:>8}'.format(*item))
+        print ('\nVentas por Ingrediente:\n')
+        for item in self.ventasXingrediente.items():
+            print ('{0:<15} {1:>8}'.format(*item))
 
 class GeneradorResumen():
     """
