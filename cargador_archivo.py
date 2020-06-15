@@ -56,6 +56,24 @@ class Manejador:
                 return ruta_archivo
             else:
                 print(ruta_archivo, "no fue localizado")
+    
+    @staticmethod
+    def menu(opt):
+        while(opt not in ['1', '2']):
+            print(f'1 - Introduzca el nombre de un archivo para cargar.')
+            print(f'2 - Cargar todos los archivos .pz en el directorio /misc/')
+            opt = input('Opción: ')
+        return opt
+            
+    @staticmethod
+    def leerTodos():
+        directorio = f'{os.getcwd()}/misc/'
+        contenido = os.listdir(directorio)
+        pedidos = []
+        for archivo in contenido:
+            if os.path.isfile(os.path.join(directorio, archivo)) and archivo.endswith('.pz'):
+                pedidos.append(archivo)
+        return pedidos
 
 
 
