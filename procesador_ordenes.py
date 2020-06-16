@@ -1,4 +1,5 @@
 from pizza import PizzaPersonal, PizzaMediana, PizzaFamiliar
+from cargador_archivo import Manejador
 
 class ProcesadorOrdenes:
     
@@ -44,3 +45,27 @@ class ProcesadorOrdenes:
                 self.factura_final[num_orden]['ingredientes'] = pizza.ingredientes
                 self.factura_final[num_orden]['precio'] = pizza.precio
         return self.factura_final
+    
+    @staticmethod
+    def procesarTodos():
+        lista_global = []
+        orden_global = 0
+        lista_archivos = Manejador().leerTodos()
+        for archivo in lista_archivos:
+            datos_leidos = Manejador().cargarArchivo(f'misc/{archivo}')
+            lista_global.append(datos_leidos)
+            orden_global += len(datos_leidos)
+            
+        # print(lista_global)
+        # print(orden_global)
+        
+        total_ordenes = {i: {} for i in range(1, orden_global + 1)}
+        # print(total_ordenes)
+        
+        cont_orden = 1
+        for archivo in lista_global:
+            for pedido in archivo.values():
+                # print(pedido)
+                total_ordenes[cont_orden] = pedido
+                cont_orden += 1
+        return total_ordenes
