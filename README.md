@@ -20,8 +20,9 @@ Integrantes:
   - [ ] Indicar tamaños de las pizzas
   - [ ] Indicar ingredientes solicitados
 - [ ] Persistencia de los datos en SQLite
-  - [ ] Crear tablas
-  - [ ] Guardar ventas realizadas
+  - [x] Crear tablas
+  - [x] Guardar ventas realizadas
+  - [ ] Mostrar datos de la BD
 - [ ] Manejo de errores
 - [ ] Informe final
 

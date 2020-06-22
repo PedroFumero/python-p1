@@ -3,9 +3,9 @@ from sqlite3 import Error
 
 class Database:
     def __init__(self, database):
-        self.conn = self.create_connection(database)
+        self.conn = self.__create_connection(database)
 
-    def create_connection(self, database):
+    def __create_connection(self, database):
         """ Crear la conexion con la base de datos """
         conn = None
         try:
@@ -16,7 +16,7 @@ class Database:
         
         return conn
 
-    def create_table(self, create_table_sql):
+    def _create_table(self, create_table_sql):
         """ Metodo para crear tablas """
         try:
             cursor = self.conn.cursor()
@@ -24,7 +24,28 @@ class Database:
         except Error as e:
             print(e)
 
-    def create_tables_if_not_exists(self):
+    def _insert(self, sql, *values):
+        cur = self.conn.cursor()
+        cur.execute(sql, values)
+        return cur.lastrowid
+
+    def _update(self, sql, *values):
+        cur = self.conn.cursor()
+        cur.execute(sql, values)
+        self.conn.commit()
+
+    def select(self, sql):
+        cur = self.conn.cursor()
+        cur.execute(sql)
+
+        rows = cur.fetchall()
+        return rows
+
+class PizzeriaDatabase(Database):
+    def __init__(self, database):
+        super().__init__(database)
+
+    def create_project_tables_if_not_exists(self):
         """ Creacion de las tablas de la base de datos si no existen """
         sql_tables = list()
         sql_project_table = """ CREATE TABLE IF NOT EXISTS usuario (
@@ -67,47 +88,36 @@ class Database:
         sql_tables.append(sql_project_table)
 
         for sql in sql_tables:
-            self.create_table(sql)
-
-    def insert(self, sql, *values):
-        cur = self.conn.cursor()
-        cur.execute(sql, values)
-        return cur.lastrowid
+            self._create_table(sql)
 
     def insert_usuario(self, nombre):
         sql = """ INSERT INTO usuario(nombre) VALUES(?) """
-        return self.insert(sql, nombre)
+        return self._insert(sql, nombre)
 
     def insert_pedido(self, fk_usuario, fecha, precio_total = None):
         sql = """ INSERT INTO pedido(fecha, precio_total, fk_usuario) VALUES(?, ?, ?) """
-        return self.insert(sql, fecha, precio_total, fk_usuario)
+        return self._insert(sql, fecha, precio_total, fk_usuario)
 
     def insert_pizza(self, tamanio, precio_base):
         sql = """ INSERT INTO pizza(tamanio, precio_base) VALUES(?, ?) """
-        return self.insert(sql, tamanio, precio_base)
+        return self._insert(sql, tamanio, precio_base)
 
     def insert_ingrediente(self, nombre, tamanio, precio):
         sql = """ INSERT INTO ingrediente(nombre, tamanio, precio) VALUES(?, ?, ?) """
-        return self.insert(sql, nombre, tamanio, precio)
+        return self._insert(sql, nombre, tamanio, precio)
 
     def insert_detalle(self, fk_pedido, fk_pizza, fk_ingrediente = None):
         sql = """ INSERT INTO detalle(fk_pedido, fk_pizza, fk_ingrediente) VALUES(?, ?, ?) """
-        return self.insert(sql, fk_pedido, fk_pizza, fk_ingrediente)
-
-    def update(self, sql, *values):
-        cur = self.conn.cursor()
-        cur.execute(sql, values)
-        self.conn.commit()
+        return self._insert(sql, fk_pedido, fk_pizza, fk_ingrediente)
 
     def update_precio_pedido(self, id_pedido, precio_total):
         sql = """ UPDATE pedido SET precio_total = ? WHERE id = ? """
-        self.update(sql, precio_total, id_pedido)
+        self._update(sql, precio_total, id_pedido)
 
-    def my_select(self, sql):
-        cur = self.conn.cursor()
-        cur.execute(sql)
+    def select_pizzas(self):
+        sql = "SELECT * FROM pizza"
+        return self.select(sql)
 
-        rows = cur.fetchall()
-
-        for row in rows:
-            print(row)
+    def select_ingredientes(self):
+        sql = "SELECT * FROM ingrediente"
+        return self.select(sql)
