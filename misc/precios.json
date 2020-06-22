@@ -1,0 +1,32 @@
+{
+    "personal": {
+        "base": 10,
+        "jamón": 1.5,
+        "champiñones": 1.75,
+        "pimentón": 1.5,
+        "doble queso": 0.8,
+        "aceitunas": 1.8,
+        "pepperoni": 1.25,
+        "salchichón": 1.6
+    },
+    "mediana": {
+        "base": 15,
+        "jamón": 1.75,
+        "champiñones": 2.05,
+        "pimentón": 1.75,
+        "doble queso": 1.3,
+        "aceitunas": 2.15,
+        "pepperoni": 1.7,
+        "salchichón": 1.85
+    },
+    "familiar": {
+        "base": 20,
+        "jamón": 2,
+        "champiñones": 2.5,
+        "pimentón": 2,
+        "doble queso": 1.7,
+        "aceitunas": 2.6,
+        "pepperoni": 1.9,
+        "salchichón": 2.1
+    }
+}
