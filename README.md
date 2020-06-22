@@ -14,7 +14,7 @@ Integrantes:
   - [x] Procesar ordenes
   - [x] Configurar pizzas de acuerdo al archivo
   - [x] Calcular monto a cobrar de cada pizza
-  - [ ] Leer todos los .pz
+  - [x] Leer todos los .pz
 - [ ] Generar otro archivo con resumen de ventas por día
   - [ ] Indicar ganacia total del dia
   - [ ] Indicar tamaños de las pizzas
