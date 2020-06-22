@@ -1,3 +1,4 @@
+import json
 class ResumenDelDia:
     """
         Clase que modela el resumen
@@ -9,13 +10,18 @@ class ResumenDelDia:
         self.ventasXingrediente = ventasXingrediente 
     
     def mostrarResumen(self):
-        print('Fecha: ' + self.fecha + '\nTotal: ' + str(self.total))
+        print('Fecha: ' + self.fecha + '\nTotal: ' + str(self.total) + ' UMs')
         print ('\nVentas por pizza (sin incluir adicionales):\n')
-        for item in self.ventasXpizza.items():
-            print ('{0:<15} {1:>8}'.format(*item))
+        print ('{0:<15} {1:>15} {2:>15}'.format(*('Tamaño','Unidades','MontoUMs')))
+        for key, value in self.ventasXpizza.items():
+            row = (key,value['cantidad'],value['ganancia'])
+            print ('{0:<15} {1:>15} {2:>15}'.format(*row))
         print ('\nVentas por Ingrediente:\n')
-        for item in self.ventasXingrediente.items():
-            print ('{0:<15} {1:>8}'.format(*item))
+        print ('{0:<15} {1:>15} {2:>15}'.format(*('Ingredientes','Unidades','MontoUMs')))
+        for key,value in self.ventasXingrediente.items():
+            row = (key,value['cantidad'],value['ganancia'])
+            print ('{0:<15} {1:>15} {2:>15}'.format(*row ))
+        print('\n\n')
 
 class GeneradorResumen():
     """
@@ -33,6 +39,12 @@ class GeneradorResumen():
                 print (pedido)
                 for campo in pedidos[pedido]:
                     print (campo,':',pedidos[pedido][campo])  
+                    
+    def obtenerPrecios(self, tamanio, componente):
+            with open('misc/precios.json', encoding='utf-8') as json_file:
+                precios = json.load(json_file)
+                return precios[tamanio][componente]            
+
 
     def generarListaResumen(self):
         """
@@ -40,23 +52,29 @@ class GeneradorResumen():
         """
         pedidos = self.agruparFecha()
         listaResumen =[]
+        ventasXpizza = {}
+        ventasXingrediente = {}
         for fecha in pedidos.keys():
             totalRes = 0
-            ventasXpizza = {}
-            ventasXingrediente = {}
             fechaRes = fecha
             for pedido in pedidos[fecha].keys():
                 totalRes += pedidos[fecha][int(pedido)]['precio']
                 tamanio = pedidos[fecha][int(pedido)]['tamanio']
                 if tamanio in ventasXpizza.keys():
-                    ventasXpizza[tamanio] += 1
+                    ventasXpizza[tamanio]['cantidad'] += 1
+                    ventasXpizza[tamanio]['ganancia'] += self.obtenerPrecios(tamanio, 'base')
                 else:
-                    ventasXpizza[tamanio] = 1
+                    ventasXpizza[tamanio] = {}
+                    ventasXpizza[tamanio]['cantidad'] = 1
+                    ventasXpizza[tamanio]['ganancia'] = self.obtenerPrecios(tamanio, 'base')
                 for ingrediente in pedidos[fecha][int(pedido)]['ingredientes']:
                     if ingrediente in ventasXingrediente.keys():
-                        ventasXingrediente[ingrediente] += 1
+                        ventasXingrediente[ingrediente]['cantidad'] += 1
+                        ventasXingrediente[ingrediente]['ganancia'] += self.obtenerPrecios(tamanio, ingrediente)
                     else:
-                        ventasXingrediente[ingrediente] = 1
+                        ventasXingrediente[ingrediente] = {}
+                        ventasXingrediente[ingrediente]['cantidad'] = 1
+                        ventasXingrediente[ingrediente]['ganancia'] = self.obtenerPrecios(tamanio, ingrediente)
             listaResumen.append(ResumenDelDia(fechaRes,totalRes,ventasXpizza,ventasXingrediente))
 
         return listaResumen
