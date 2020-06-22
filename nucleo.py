@@ -21,4 +21,6 @@ elif opt == '2':
 
 
 total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
-Resumen(total_ordenes).mostrarPedidos()
+# Resumen(total_ordenes).mostrarPedidos()
+
+Resumen(total_ordenes).armarResumen()
