@@ -1,3 +1,5 @@
+import sys
+
 from cargador_archivo import Manejador
 from procesador_ordenes import ProcesadorOrdenes
 from generador_resumen import ResumenDelDia,GeneradorResumen
@@ -13,6 +15,10 @@ elif opt == '2':
     # Cargar todos los pedidos en la carpeta /misc
     pedidos = ProcesadorOrdenes().procesarTodos()
     # print(pedidos)
+    
+if Manejador().validarVacio(pedidos):
+    sys.exit()
+    
 
 db = DatabaseController('pizzeria_database.db')
 db.cargar_registros(pedidos)

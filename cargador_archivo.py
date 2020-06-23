@@ -1,4 +1,5 @@
 import os
+import re
 
 class Manejador:
     """
@@ -74,6 +75,35 @@ class Manejador:
             if os.path.isfile(os.path.join(directorio, archivo)) and archivo.endswith('.pz'):
                 pedidos.append(archivo)
         return pedidos
-
-
-
+    
+    def chequearVacio(self, llave, valor):
+        if not valor: 
+            print(f'Existe un error en el archivo. Un campo de {llave} esta vacío. Realice las correcciones y vuelva a ejecutar el programa.')
+            return True
+        return False
+    
+    def chequearNumeroEnNombre(self, llave, valor):
+        if llave == 'nombre':    
+            tiene_numero = any(map(str.isdigit, valor))
+            if tiene_numero:
+                print(f'Existe un error en el archivo. Uno o más nombres contienen números. Realice las correcciones y vuelva a ejecutar el programa.')
+                return True
+            return False
+    
+    def chequearFormatoFecha(self, llave, valor):
+        if llave == 'fecha':
+            match = re.search('([0-9|/]+)', valor)
+            if not match:
+                print(f'Existe un error en el archivo. El formato de fecha debe ser dia/mes/anio. Realice las correcciones y vuelva a ejecutar el programa.')
+                return True
+            return False
+    
+    @staticmethod
+    def validarVacio(lista_pedidos):
+        for pedido in lista_pedidos.values():
+            for llave, valor in pedido.items():
+                if Manejador().chequearVacio(llave, valor):
+                    return True
+                elif Manejador().chequearNumeroEnNombre(llave, valor):
+                    return True
+        return False
