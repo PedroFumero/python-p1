@@ -74,6 +74,12 @@ class Manejador:
             if os.path.isfile(os.path.join(directorio, archivo)) and archivo.endswith('.pz'):
                 pedidos.append(archivo)
         return pedidos
-
-
-
+    
+    @staticmethod
+    def validarVacio(lista_pedidos):
+        for pedido in lista_pedidos.values():
+            for llave, valor in pedido.items():
+                if not valor:
+                    print(f'Existe un error en el archivo. :: {llave} :: esta vacío. Realice las correcciones y vuelva a ejecutar el programa.')
+                    return True
+        return False
