@@ -52,11 +52,11 @@ class GeneradorResumen():
         """
         pedidos = self.agruparFecha()
         listaResumen =[]
-        ventasXpizza = {}
-        ventasXingrediente = {}
         for fecha in pedidos.keys():
             totalRes = 0
             fechaRes = fecha
+            ventasXpizza = {}
+            ventasXingrediente = {}
             for pedido in pedidos[fecha].keys():
                 totalRes += pedidos[fecha][int(pedido)]['precio']
                 tamanio = pedidos[fecha][int(pedido)]['tamanio']
