@@ -15,7 +15,8 @@ elif opt == '2':
     # Cargar todos los pedidos en la carpeta /misc
     pedidos = ProcesadorOrdenes().procesarTodos()
     # print(pedidos)
-    
+
+# TODO Cambiar nombre de método a validar() solamente, porque se estan validando varias cosas
 if Manejador().validarVacio(pedidos):
     sys.exit()
     

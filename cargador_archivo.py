@@ -20,7 +20,7 @@ class Manejador:
         lectura = lector.readlines()
         # Se elimina \n (salto de linea de cada índice de la lista)
         lectura = [i.rstrip('\n') for i in lectura]
-
+        lector.close()
         for i in lectura:
             if(i.lower() == 'comienzo_pedido'):
                 pedido = []
@@ -60,6 +60,9 @@ class Manejador:
     
     @staticmethod
     def menu(opt):
+        """
+        Menu de opciones del programa
+        """
         while(opt not in ['1', '2']):
             print(f'1 - Introduzca el nombre de un archivo para cargar.')
             print(f'2 - Cargar todos los archivos .pz en el directorio /misc/')
@@ -68,6 +71,9 @@ class Manejador:
             
     @staticmethod
     def leerTodos():
+        """
+        Lee todos los archivos .pz dentro del directorio /misc/
+        """
         directorio = f'{os.getcwd()}/misc/'
         contenido = os.listdir(directorio)
         pedidos = []
@@ -77,12 +83,18 @@ class Manejador:
         return pedidos
     
     def chequearVacio(self, llave, valor):
+        """
+        Valida que cualquier campo en el archivo no sea vacío
+        """
         if not valor: 
             print(f'Existe un error en el archivo. Un campo de {llave} esta vacío. Realice las correcciones y vuelva a ejecutar el programa.')
             return True
         return False
     
     def chequearNumeroEnNombre(self, llave, valor):
+        """
+        Valida que un nombre no contenga números
+        """
         if llave == 'nombre':    
             tiene_numero = any(map(str.isdigit, valor))
             if tiene_numero:
@@ -91,6 +103,9 @@ class Manejador:
             return False
     
     def chequearFormatoFecha(self, llave, valor):
+        """
+        Valida que el formado de fecha sea correcto: dia/mes/año
+        """
         if llave == 'fecha':
             match = re.search('([0-9|/]+)', valor)
             if not match:
@@ -100,6 +115,9 @@ class Manejador:
     
     @staticmethod
     def validarVacio(lista_pedidos):
+        """
+        Método que valida posibles errores en la lectura del archivo
+        """
         for pedido in lista_pedidos.values():
             for llave, valor in pedido.items():
                 if Manejador().chequearVacio(llave, valor):
