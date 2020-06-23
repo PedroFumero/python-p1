@@ -1,6 +1,7 @@
 from cargador_archivo import Manejador
 from procesador_ordenes import ProcesadorOrdenes
 from generador_resumen import ResumenDelDia,GeneradorResumen
+from database_controller import DatabaseController
 
 # Menú de opciones
 opt = Manejador().menu(0)
@@ -13,12 +14,8 @@ elif opt == '2':
     pedidos = ProcesadorOrdenes().procesarTodos()
     # print(pedidos)
 
-
-
-# ruta_archivo = Manejador().getRutaArchivo()
-# pedidos = Manejador().cargarArchivo(ruta_archivo)
-# print(pedidos)
-
+db = DatabaseController('pizzeria_database.db')
+db.cargar_registros(pedidos)
 
 total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
 #generadorResumen(total_ordenes).mostrarPedidos()
