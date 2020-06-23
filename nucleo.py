@@ -1,6 +1,6 @@
 from cargador_archivo import Manejador
 from procesador_ordenes import ProcesadorOrdenes
-from generador_resumen import Resumen
+from generador_resumen import ResumenDelDia,GeneradorResumen
 
 # Menú de opciones
 opt = Manejador().menu(0)
@@ -21,4 +21,8 @@ elif opt == '2':
 
 
 total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
-Resumen(total_ordenes).mostrarPedidos()
+#generadorResumen(total_ordenes).mostrarPedidos()
+resumenXfecha = GeneradorResumen(total_ordenes).generarListaResumen()
+
+for dia in resumenXfecha:
+    dia.mostrarResumen()
