@@ -68,8 +68,6 @@ class Database:
             print("Error al eliminar:", sql, values)
             raise Error(e)
 
-    
-
 class PizzeriaDatabase(Database):
     """ Modelo especifico para la Base de Datos de la Pizzeria """
     def __init__(self, database):

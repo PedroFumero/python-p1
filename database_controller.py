@@ -1,5 +1,6 @@
 from database_model import PizzeriaDatabase
 from sqlite3 import Error
+import json
 
 class DatabaseController:
     """ Controlador que interactua con el Modelo principal de la BD """
@@ -16,32 +17,20 @@ class DatabaseController:
 
         with db.conn:
             try:
-                # Datos del negocio
-                tamanios = ['personal', 'mediana', 'familiar']
-                precios_pizzas = [10,15,20]
-                precios_ingredientes = {
-                    'jamón': [1.5, 1.75, 2],
-                    'champiñones': [1.75, 2.05, 2.5],
-                    'pimentón': [1.5, 1.75, 2],
-                    'doble queso': [0.8, 1.3, 1.7],
-                    'aceitunas': [1.8, 2.15, 2.6],
-                    'pepperoni': [1.25, 1.7, 1.9],
-                    'salchichón': [1.6, 1.85, 2.1]
-                }
-                
-                # Insertar pizzas
                 pizzas = db.select_pizzas()
-                if(len(pizzas) == 0):
-                    for i in range(len(tamanios)):
-                        db.insert_pizza(tamanios[i], precios_pizzas[i])
-
-                # Insertar ingredientes
                 ingredientes = db.select_ingredientes()
-                if(len(ingredientes) == 0):
-                    for ingrediente, precios in precios_ingredientes.items():
-                        for i in range(len(tamanios)):
-                            db.insert_ingrediente(ingrediente, tamanios[i], precios[i])          
-
+                if len(pizzas) == 0 or len(ingredientes) == 0:
+                    # Datos del negocio
+                    with open('misc/precios.json', encoding='utf-8') as json_file:
+                        precios = json.load(json_file)
+                    for tamanio, precio in precios.items():
+                        for nombre, valor in precio.items():
+                            # Insertar pizzas
+                            if nombre == 'base':
+                                db.insert_pizza(tamanio, valor)
+                            # Insertar ingredientes
+                            else:
+                                db.insert_ingrediente(nombre, tamanio, valor)
             except Error as e:
                 db.conn.rollback()
                 print("SQLite Excepiton Error:", e)
@@ -118,5 +107,3 @@ class DatabaseController:
                     else:
                         print('|', ' '*16, '|', end="")
                 print()
-
-            print(db.test())

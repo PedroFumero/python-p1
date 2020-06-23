@@ -16,6 +16,7 @@ elif opt == '2':
 
 db = DatabaseController('pizzeria_database.db')
 db.cargar_registros(pedidos)
+# db.print_datase()
 
 total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
 #generadorResumen(total_ordenes).mostrarPedidos()
