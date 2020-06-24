@@ -71,5 +71,3 @@ class PizzaFamiliar(PizzaBase):
         
     # * Así se pude utilizar un método de la súper clase en python
     # super().detalle(self.precio)
-
-    # TODO algunos ingredientes no son tomados correctamente, debido a que en el archivo algunos tienen acento y otros no: jamón -> jamon, salchichón -> salchichon, otros tienen errores, por ejemplo pepperoni -> peppperoni

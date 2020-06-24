@@ -13,7 +13,6 @@ class Manejador:
         """
         Encargado de realizar el procesamiento de carga. Retorna un diccionario con los pedidos.
         """
-        # TODO faltan las validaciones, actualmente no cuenta con ninguna
         pedidos = []
         # Se lee el archivo
         lector = open(ruta_archivo, encoding="utf-8")
@@ -47,16 +46,19 @@ class Manejador:
     @staticmethod
     def getRutaArchivo():
         """
-        Pregunta y valida la ruta del archivo con el que se trabajaran los pedidos
-        Retrorna el nombre de un archivo valido
+        Pregunta y valida la ruta del archivo con el que se trabajarán los pedidos
+        Retorna el nombre de un archivo válido
         """
         while True:
-            print("Por favor, introduzca el el nombre del archivo. Ej: misc/pedidos1.pz")
+            print("Por favor, introduzca el nombre del archivo. Ej: misc/pedidos1.pz")
             ruta_archivo = input()
-            if os.path.exists(ruta_archivo):
-                return ruta_archivo
+            if not ruta_archivo.endswith('.pz'):
+                print('El archivo debe tener extensión .pz')
             else:
-                print(ruta_archivo, "no fue localizado")
+                if os.path.exists(ruta_archivo):
+                    return ruta_archivo
+                else:
+                    print(ruta_archivo, "no fue localizado")
     
     @staticmethod
     def menu(opt):
@@ -114,7 +116,7 @@ class Manejador:
             return False
     
     @staticmethod
-    def validarVacio(lista_pedidos):
+    def validar(lista_pedidos):
         """
         Método que valida posibles errores en la lectura del archivo
         """

@@ -1,10 +1,10 @@
 Fecha: 05/06/2020
-Total: 30 UMs
+Total: 10 UMs
 
 Ventas por pizza (sin incluir adicionales):
 
 Tamaño                 Unidades        MontoUMs
-Personal                      3              30
+Personal                      1              10
 
 Ventas por Ingrediente:
 

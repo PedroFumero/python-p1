@@ -16,8 +16,8 @@ elif opt == '2':
     pedidos = ProcesadorOrdenes().procesarTodos()
     # print(pedidos)
 
-# TODO Cambiar nombre de método a validar() solamente, porque se estan validando varias cosas
-if Manejador().validarVacio(pedidos):
+# Valida posibles errores en la lectura del archivo
+if Manejador().validar(pedidos):
     sys.exit()
     
 
