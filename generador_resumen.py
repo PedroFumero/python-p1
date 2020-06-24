@@ -28,12 +28,12 @@ class ResumenDelDia:
         print ('\nVentas por pizza (sin incluir adicionales):\n')
         print ('{0:<15} {1:>15} {2:>15}'.format(*('Tamaño','Unidades','MontoUMs')))
         for key, value in self.ventasXpizza.items():
-            row = (key,value['cantidad'],value['ganancia'])
+            row = (key.title(),value['cantidad'],value['ganancia'])
             print ('{0:<15} {1:>15} {2:>15}'.format(*row))
         print ('\nVentas por Ingrediente:\n')
         print ('{0:<15} {1:>15} {2:>15}'.format(*('Ingredientes','Unidades','MontoUMs')))
         for key,value in self.ventasXingrediente.items():
-            row = (key,value['cantidad'],value['ganancia'])
+            row = (key.title(),value['cantidad'],value['ganancia'])
             print ('{0:<15} {1:>15} {2:>15}'.format(*row ))
         print('\n\n')
 
