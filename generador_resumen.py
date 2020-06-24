@@ -1,5 +1,5 @@
-import json
 import sys
+import pizza
 class ResumenDelDia:
     '''Clase que modela el resumen de un dia especifico
         Atributos 
@@ -78,14 +78,7 @@ class GeneradorResumen():
                     print (campo,':',pedidos[pedido][campo])  
                     
     def obtenerPrecios(self, tamanio, componente):
-        """
-            Funcion que obtiene de un archivo .json ubicado en 'misc/'
-            La estructura del json es convertida a un diccionario a traves
-            de la libreria json importada al inicio
-        """
-        with open('misc/precios.json', encoding='utf-8') as json_file:
-            precios = json.load(json_file)
-            return precios[tamanio][componente]            
+        return pizza.PizzaBase().obtenerPrecios(tamanio,componente)             
 
     def agruparFecha(self):
         """
