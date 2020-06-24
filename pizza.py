@@ -1,8 +1,23 @@
+import json
 class PizzaBase:
     """
     Pizza base, con métodos comúnes
     """
-        
+    def obtenerPrecios(self, tamanio, componente):
+        """
+            Funcion que obtiene de un archivo .json ubicado en 'misc/'
+            La estructura del json es convertida a un diccionario a traves
+            de la libreria json importada al inicio
+        """
+        if componente is None:
+            with open('misc/precios.json', encoding='utf-8') as json_file:
+                precios = json.load(json_file)
+                return precios[tamanio] 
+        else:
+            with open('misc/precios.json', encoding='utf-8') as json_file:
+                precios = json.load(json_file)
+                return precios[tamanio][componente]        
+
     def calcularPrecio(self, precio, precios, ingredientes):
         """
         Retorna el precio final de cada pizza incluyendo la suma de sus ingredientes.
@@ -22,17 +37,10 @@ class PizzaPersonal(PizzaBase):
     
     def __init__(self, ingredientes):
         self.ingredientes = ingredientes
-        self.precios_lista = {
-            'jamón': 1.5,
-            'champiñones': 1.75,
-            'pimentón': 1.5,
-            'doble queso': 0.8,
-            'aceitunas': 1.8,
-            'pepperoni': 1.25,
-            'salchichón': 1.6
-        }
+        self.precios_lista = self.obtenerPrecios('personal',None)
+        self.base = self.obtenerPrecios('personal','base')
         # print(self.ingredientes)
-        self.precio = self.calcularPrecio(10, self.precios_lista, self.ingredientes)
+        self.precio = self.calcularPrecio(self.base, self.precios_lista, self.ingredientes)
         # print(self.precio)
         
 class PizzaMediana(PizzaBase):
@@ -42,17 +50,10 @@ class PizzaMediana(PizzaBase):
     
     def __init__(self, ingredientes):
         self.ingredientes = ingredientes
-        self.precios_lista = {
-            'jamón': 1.75,
-            'champiñones': 2.05,
-            'pimentón': 1.75,
-            'doble queso': 1.3,
-            'aceitunas': 2.15,
-            'pepperoni': 1.7,
-            'salchichón': 1.85
-        }
+        self.precios_lista = self.obtenerPrecios('mediana',None)
+        self.base = self.obtenerPrecios('mediana','base')
         # print(self.ingredientes)
-        self.precio = self.calcularPrecio(15, self.precios_lista, self.ingredientes)
+        self.precio = self.calcularPrecio(self.base, self.precios_lista, self.ingredientes)
         # print(self.precio)
 
 class PizzaFamiliar(PizzaBase):
@@ -62,17 +63,10 @@ class PizzaFamiliar(PizzaBase):
     
     def __init__(self, ingredientes):
         self.ingredientes = ingredientes
-        self.precios_lista = {
-            'jamón': 2,
-            'champiñones': 2.5,
-            'pimentón': 2,
-            'doble queso': 1.7,
-            'aceitunas': 2.6,
-            'pepperoni': 1.9,
-            'salchichón': 2.1
-        }
+        self.precios_lista = self.obtenerPrecios('familiar',None)
+        self.base = self.obtenerPrecios('familiar','base')
         # print(self.ingredientes)
-        self.precio = self.calcularPrecio(20, self.precios_lista, self.ingredientes)
+        self.precio = self.calcularPrecio(self.base, self.precios_lista, self.ingredientes)
         # print(self.precio)
         
     # * Así se pude utilizar un método de la súper clase en python
