@@ -1,8 +1,15 @@
 import json
+import sys
 class ResumenDelDia:
-    """
-        Clase que modela el resumen
-    """
+    '''Clase que modela el resumen de un dia especifico
+        Atributos 
+            fecha: fecha del resumen
+            total: total en UMs de ese dia
+            ventasXpizza: diccionario de tamanos de pizza cuyo valor es un 
+                diccionario compuesto por la cantidad vendida y la ganancia
+            ventasXingrediente: diccionario de igredientes cuyo valor es un 
+                diccionario compuesto por la cantidad vendida y la ganancia
+    '''
     def __init__(self,fecha,total,ventasXpizza,ventasXingrediente):
         self.fecha = fecha
         self.total = total
@@ -10,6 +17,13 @@ class ResumenDelDia:
         self.ventasXingrediente = ventasXingrediente 
     
     def mostrarResumen(self):
+        """
+            Muestra por consola el resumen de ventas para el dia 
+            correspondiente.
+            Usa los atributos de la propia clase.
+            Para imprimir cada fila se ingresan los datos en una variable "row"
+            la cual es una tupla y son mapeados para su impresion en el print
+        """
         print('Fecha: ' + self.fecha + '\nTotal: ' + str(self.total) + ' UMs')
         print ('\nVentas por pizza (sin incluir adicionales):\n')
         print ('{0:<15} {1:>15} {2:>15}'.format(*('Tamaño','Unidades','MontoUMs')))
@@ -25,12 +39,35 @@ class ResumenDelDia:
 
 class GeneradorResumen():
     """
-        Clase que genera el resumen
+        Clase encargada de la generacion del resumen
+        Atributos 
+            pedidos: diccionario que contiene los pedidos
     """
     def __init__(self,pedidos):
+        """
+            Constructor de la clase ResumenDelDia
+        """
         self.pedidos = pedidos
 
+    def guardarResumen(self,listaResumen):
+        """
+            Al pasarle una lista previamente generada de resumenes diarios
+            guarda en un archivo todo el resumen
+        """
+        orig_stdout = sys.stdout
+        f = open('misc/resumen.txt', 'w')
+
+        sys.stdout = f
+        for resumen in listaResumen:
+            resumen.mostrarResumen()
+        sys.stdout = orig_stdout
+        f.close()
+
     def mostrarPedidos(self):
+        """
+            Funcion que permite postrar los pedidos que fueron cargados
+            en la clase
+        """
         pedidos = self.pedidos  
         if pedidos is None:
             print('No hay pedidos por mostrar!') 
@@ -41,14 +78,37 @@ class GeneradorResumen():
                     print (campo,':',pedidos[pedido][campo])  
                     
     def obtenerPrecios(self, tamanio, componente):
-            with open('misc/precios.json', encoding='utf-8') as json_file:
-                precios = json.load(json_file)
-                return precios[tamanio][componente]            
+        """
+            Funcion que obtiene de un archivo .json ubicado en 'misc/'
+            La estructura del json es convertida a un diccionario a traves
+            de la libreria json importada al inicio
+        """
+        with open('misc/precios.json', encoding='utf-8') as json_file:
+            precios = json.load(json_file)
+            return precios[tamanio][componente]            
 
+    def agruparFecha(self):
+        """
+            Funcion que agrupa por fecha los pedidos
+        """
+        pedidos = self.pedidos
+        resumenAgrupado = {}
+        for pedido in pedidos.values():
+            fecha = pedido['fecha']
+            if fecha in resumenAgrupado.keys():
+                pos = len(resumenAgrupado[fecha].values())+1 
+                resumenAgrupado[fecha][pos] = pedido               
+            else:
+                resumenAgrupado[fecha] = {}
+                resumenAgrupado[fecha][1] = pedido
+        return resumenAgrupado
 
-    def generarListaResumen(self):
+    def generarListaResumen(self,save):
         """
             Funcion que genera el resumen total partiendo de la lista de pedidos agrupada
+            Se retorna una lista resumen con Objetos de la clase ResumenDelDia.   
+            Atributos
+                save: bool que controla si se desea o no guardar en archivo     
         """
         pedidos = self.agruparFecha()
         listaResumen =[]
@@ -76,21 +136,6 @@ class GeneradorResumen():
                         ventasXingrediente[ingrediente]['cantidad'] = 1
                         ventasXingrediente[ingrediente]['ganancia'] = self.obtenerPrecios(tamanio, ingrediente)
             listaResumen.append(ResumenDelDia(fechaRes,totalRes,ventasXpizza,ventasXingrediente))
-
+        if save :
+            self.guardarResumen(listaResumen)
         return listaResumen
-
-    def agruparFecha(self):
-        """
-            Funcion que agrupa por fecha los pedidos
-        """
-        pedidos = self.pedidos
-        resumenAgrupado = {}
-        for pedido in pedidos.values():
-            fecha = pedido['fecha']
-            if fecha in resumenAgrupado.keys():
-                pos = len(resumenAgrupado[fecha].values())+1 
-                resumenAgrupado[fecha][pos] = pedido               
-            else:
-                resumenAgrupado[fecha] = {}
-                resumenAgrupado[fecha][1] = pedido
-        return resumenAgrupado
