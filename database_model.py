@@ -105,6 +105,7 @@ class PizzeriaDatabase(Database):
         sql_tables.append(sql_project_table)
 
         sql_project_table = """ CREATE TABLE IF NOT EXISTS detalle (
+                                    numero_pedido INTEGER NOT NULL,
                                     fk_pedido INTEGER NOT NULL,
                                     fk_pizza INTEGER NOT NULL,
                                     fk_ingrediente INTEGER,
@@ -140,10 +141,10 @@ class PizzeriaDatabase(Database):
         sql = """ INSERT INTO ingrediente(nombre, tamanio, precio) VALUES(?, ?, ?) """
         return self._insert(sql, nombre, tamanio, precio)
 
-    def insert_detalle(self, fk_pedido, fk_pizza, fk_ingrediente = None):
+    def insert_detalle(self, numero_pedido, fk_pedido, fk_pizza, fk_ingrediente = None):
         """ Insertar detaller de la ralacion entre pedido, pizza e ingrediente """
-        sql = """ INSERT INTO detalle(fk_pedido, fk_pizza, fk_ingrediente) VALUES(?, ?, ?) """
-        return self._insert(sql, fk_pedido, fk_pizza, fk_ingrediente)
+        sql = """ INSERT INTO detalle(numero_pedido, fk_pedido, fk_pizza, fk_ingrediente) VALUES(?, ?, ?, ?) """
+        return self._insert(sql, numero_pedido, fk_pedido, fk_pizza, fk_ingrediente)
 
     def update_precio_pedido(self, id_pedido, precio_total):
         """ 
@@ -163,6 +164,21 @@ class PizzeriaDatabase(Database):
         sql = "SELECT * FROM ingrediente"
         return self._select(sql)
 
+    def select_usuarios(self):
+        """ Seleccionar todos los usuarios """
+        sql = "SELECT * FROM usuario"
+        return self._select(sql)
+
+    def select_pedidos(self):
+        """ Seleccionar todos los pedidos """
+        sql = "SELECT * FROM pedido"
+        return self._select(sql)
+
+    def select_detalles(self):
+        """ Seleccionar todos los detalles """
+        sql = "SELECT * FROM detalle"
+        return self._select(sql)
+
     def select_pizzas_where(self, tamanio):
         """ Seleccionar varias pizzas dado un tamaño """
         sql = "SELECT * FROM pizza WHERE tamanio = ?"
@@ -172,11 +188,28 @@ class PizzeriaDatabase(Database):
         """ Seleccionar varios ingrediente dado su tamaño y nombre """
         sql = "SELECT * FROM ingrediente WHERE tamanio = ? AND nombre = ?"
         return self._select(sql, tamanio, nombre)
+
+    def select_1_detalle(self):
+        """ Petición sencilla para validar si hay datos en la BD """
+        sql = """ SELECT * FROM detalle LIMIT 1"""
+        return self._select(sql)
+    
+    def select_all_data(self):
+        """ Seleccionar todos los datos importantes de la base de datos con JOIN de tablas """
+        sql = """
+            SELECT u.nombre, pe.fecha, pe.precio_total, d.numero_pedido, pi.tamanio, i.nombre 
+            FROM detalle AS d
+                LEFT OUTER JOIN ingrediente AS i ON d.fk_ingrediente = i.id
+                JOIN pizza AS pi ON d.fk_pizza = pi.id
+                JOIN pedido AS pe ON d.fk_pedido = pe.id
+                JOIN usuario AS u ON pe.fk_usuario = u.id
+            """
+        return self._select(sql)
     
     def select_all_database(self):
         """ Seleccionar todos los datos de la base de datos, se usa para debbugin """
         sql = """
-            SELECT u.id, u.nombre, pe.id, pe.fecha, pe.precio_total, pi.id, pi.tamanio, i.id, i.nombre 
+            SELECT u.id, u.nombre, pe.id, pe.fecha, pe.precio_total, d.numero_pedido, pi.id, pi.tamanio, i.id, i.nombre 
             FROM detalle AS d
                 LEFT OUTER JOIN ingrediente AS i ON d.fk_ingrediente = i.id
                 JOIN pizza AS pi ON d.fk_pizza = pi.id

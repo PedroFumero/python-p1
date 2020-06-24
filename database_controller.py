@@ -54,6 +54,7 @@ class DatabaseController:
                     id_pedido = db.insert_pedido(fk_usuario=id_usuario, fecha=registro['fecha'])
                     precio_total = 0
 
+                    numero_pedido = 0 # Util si una persona hace varios pedidos
                     for pedido in registro['pedido']:
                         tamanio = pedido[0]
                         pizza = db.select_pizzas_where(tamanio=tamanio)[0]
@@ -63,6 +64,7 @@ class DatabaseController:
                         # Insertar un pizza sin ingredinetes adicionales
                         if len(pedido) == 1:
                             db.insert_detalle(
+                                numero_pedido=numero_pedido,
                                 fk_pedido=id_pedido, 
                                 fk_pizza=id_pizza, 
                                 fk_ingrediente=None
@@ -79,10 +81,12 @@ class DatabaseController:
                                 precio_total += ingrediente[3]
 
                                 db.insert_detalle(
+                                    numero_pedido=numero_pedido,
                                     fk_pedido=id_pedido, 
                                     fk_pizza=id_pizza, 
                                     fk_ingrediente=id_ingrediente
                                 )
+                        numero_pedido += 1
                     
                     # Actualizar el precio total del pedido
                     db.update_precio_pedido(id_pedido, precio_total)
@@ -94,16 +98,88 @@ class DatabaseController:
             else:                    
                 db.conn.commit()
 
+    def obtenerPedidos(self):
+        """ Retorna un dict con los pedidos de la base de datos """
+        db = self.db
+        rows = None
+        with db.conn:
+            try:
+                rows = db.select_all_data()
+            except Error as e:
+                db.conn.rollback()
+                print("SQLite Excepiton Error:", e)
+                print("Error al extraer los registros de la base de datos")
+
+        if rows is not None:
+            pedidos = list()
+            for row in rows:
+                nombre = row[0]
+                fecha = row[1]
+                # precio_total = row[2]
+                numero_pedido = row[3] # Util cuando un usuario tiene varios pedidos
+                tamanio = row[4]
+                ingrediente = row[5]
+                
+                # Primer registro
+                if len(pedidos) == 0:
+                    detalle = [tamanio, ingrediente] if ingrediente else [tamanio]
+                    pedido = {
+                        'nombre': nombre,
+                        'fecha': fecha,
+                        'pedido': [detalle]
+                    }
+                    pedidos.append(pedido)
+
+                # Si son datos pertenecientes a la persona anterior
+                elif pedidos[-1]['nombre'] == nombre and pedidos[-1]['fecha'] == fecha:
+                    # Si son datatos del mismo pedido
+                    if numero_pedido == len(pedidos[-1]['pedido']) - 1:
+                        pedidos[-1]['pedido'][numero_pedido].append(ingrediente)
+                    # Si es un nuevo pedido de la misma persona
+                    else:
+                        detalle = [tamanio, ingrediente] if ingrediente else [tamanio]
+                        pedidos[-1]['pedido'].append(detalle)
+
+                # Si son datos de una persona distinta a la anterior
+                else:
+                    detalle = [tamanio, ingrediente] if ingrediente else [tamanio]
+                    pedido = {
+                        'nombre': nombre,
+                        'fecha': fecha,
+                        'pedido': [detalle]
+                    }
+                    pedidos.append(pedido)
+                
+            # Retorna los pedidos en el formato requerido
+            dict_pedidos = {i:pedidos[i-1] for i in range(1, len(pedidos) + 1)}
+            return dict_pedidos
+
+    def tiene_datos(self):
+        """ Verficiar si hay datos en la base de datos """
+        db = self.db
+        with db.conn:
+            try:
+                row = db.select_1_detalle()
+                return len(row) >= 1
+            except Error as e:
+                return False
+
     def print_datase(self):
         """ Imprimir en pantalla la base de datos (para debbugin) """
         db = self.db
         with db.conn:
-            print("(u.id, u.nombre, pe.id, pe.fecha, pe.precio_total, pi.id, pi.tamanio, i.id, i.nombre)")
+            columnas = '|{0:15}||{1:20}||{2:15}||{3:15}||{4:15}||{5:15}||{6:15}||{7:15}||{8:15}||{9:15}|'
+            print(columnas.format('u.id', 'u.nombre', 'pe.id', 'pe.fecha', 'pe.precio_total', 'd.numero_pedido', 'pi.id', 'pi.tamanio', 'i.id', 'i.nombre'))
             rows = db.select_all_database()
+            i = 0
             for row in rows:
-                for value in row:
-                    if value:
-                        print('|{0:<18}|'.format(value), end="")
+                for i in range(len(row)):
+                    if row[i] is not None and i == 1:
+                        print('|{0:<20}|'.format(row[i]), end="")
+                    elif row[i] is not None:
+                        print('|{0:<15}|'.format(row[i]), end="")
+                    elif i == 1:
+                        print('|', ' '*18, '|', end="")
                     else:
-                        print('|', ' '*16, '|', end="")
+                        print('|', ' '*13, '|', end="")
                 print()
