@@ -27,7 +27,6 @@ db.cargar_registros(pedidos)
 
 total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
 #generadorResumen(total_ordenes).mostrarPedidos()
-resumenXfecha = GeneradorResumen(total_ordenes).generarListaResumen()
-
+resumenXfecha = GeneradorResumen(total_ordenes).generarListaResumen(True)
 for dia in resumenXfecha:
     dia.mostrarResumen()
