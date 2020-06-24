@@ -8,7 +8,6 @@ from database_controller import DatabaseController
 # Inicializacion de la Base de Datos
 db = DatabaseController('pizzeria_database.db')
 existe_db = db.tiene_datos()
-print(existe_db)
 
 # Menú de opciones
 opt = Manejador().menu(0, existe_db)
