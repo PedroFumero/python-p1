@@ -55,7 +55,7 @@ class GeneradorResumen():
             guarda en un archivo todo el resumen
         """
         orig_stdout = sys.stdout
-        f = open('misc/resumen.txt', 'w')
+        f = open('misc/resumen.txt', 'w', encoding='utf-8')
 
         sys.stdout = f
         for resumen in listaResumen:
