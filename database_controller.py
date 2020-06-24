@@ -168,7 +168,8 @@ class DatabaseController:
         """ Imprimir en pantalla la base de datos (para debbugin) """
         db = self.db
         with db.conn:
-            print("(u.id, u.nombre, pe.id, pe.fecha, pe.precio_total, d.numero_pedido,pi.id, pi.tamanio, i.id, i.nombre)")
+            columnas = '|{0:15}||{1:20}||{2:15}||{3:15}||{4:15}||{5:15}||{6:15}||{7:15}||{8:15}||{9:15}|'
+            print(columnas.format('u.id', 'u.nombre', 'pe.id', 'pe.fecha', 'pe.precio_total', 'd.numero_pedido', 'pi.id', 'pi.tamanio', 'i.id', 'i.nombre'))
             rows = db.select_all_database()
             i = 0
             for row in rows:
@@ -181,3 +182,4 @@ class DatabaseController:
                         print('|', ' '*18, '|', end="")
                     else:
                         print('|', ' '*13, '|', end="")
+                print()

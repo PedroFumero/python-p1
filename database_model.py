@@ -164,6 +164,21 @@ class PizzeriaDatabase(Database):
         sql = "SELECT * FROM ingrediente"
         return self._select(sql)
 
+    def select_usuarios(self):
+        """ Seleccionar todos los usuarios """
+        sql = "SELECT * FROM usuario"
+        return self._select(sql)
+
+    def select_pedidos(self):
+        """ Seleccionar todos los pedidos """
+        sql = "SELECT * FROM pedido"
+        return self._select(sql)
+
+    def select_detalles(self):
+        """ Seleccionar todos los detalles """
+        sql = "SELECT * FROM detalle"
+        return self._select(sql)
+
     def select_pizzas_where(self, tamanio):
         """ Seleccionar varias pizzas dado un tamaño """
         sql = "SELECT * FROM pizza WHERE tamanio = ?"
