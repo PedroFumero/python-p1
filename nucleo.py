@@ -74,7 +74,6 @@ while opt != '7':
         # for dia in resumenXfecha:
         #     dia.mostrarResumen()
 
-
         # Cargar datos a BD si no vienen de la BD
         if opt != '3' and len(pedidos):
             print("¿Desea cargar estos datos en la base de datos?")
