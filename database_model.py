@@ -217,3 +217,28 @@ class PizzeriaDatabase(Database):
                 JOIN usuario AS u ON pe.fk_usuario = u.id
             """
         return self._select(sql)
+
+    def delete_usuarios(self):
+        """ Elimina los registros de la tabla usuario """
+        sql = "DELETE FROM usuario"
+        self._delete(sql)
+
+    def delete_pedidos(self):
+        """ Elimina los registros de la tabla pedido """
+        sql = "DELETE FROM pedido"
+        self._delete(sql)
+
+    def delete_detalles(self):
+        """ Elimina los registros de la tabla detalle """
+        sql = "DELETE FROM detalle"
+        self._delete(sql)
+
+    def delete_pizzas(self):
+        """ Elimina los registros de la tabla pizza """
+        sql = "DELETE FROM pizza"
+        self._delete(sql)
+
+    def delete_ingredientes(self):
+        """ Elimina los registros de la tabla ingrediente """
+        sql = "DELETE FROM ingrediente"
+        self._delete(sql)

@@ -176,21 +176,94 @@ class DatabaseController:
                 return False
 
     def print_datase(self):
-        """ Imprimir en pantalla la base de datos (para debbugin) """
+        """ Imprimir en pantalla la base de datos """
         db = self.db
         with db.conn:
-            columnas = '|{0:15}||{1:20}||{2:15}||{3:15}||{4:15}||{5:15}||{6:15}||{7:15}||{8:15}||{9:15}|'
-            print(columnas.format('u.id', 'u.nombre', 'pe.id', 'pe.fecha', 'pe.precio_total', 'd.numero_pedido', 'pi.id', 'pi.tamanio', 'i.id', 'i.nombre'))
-            rows = db.select_all_database()
-            i = 0
-            for row in rows:
-                for i in range(len(row)):
-                    if row[i] is not None and i == 1:
-                        print('|{0:<20}|'.format(row[i]), end="")
-                    elif row[i] is not None:
-                        print('|{0:<15}|'.format(row[i]), end="")
-                    elif i == 1:
-                        print('|', ' '*18, '|', end="")
-                    else:
-                        print('|', ' '*13, '|', end="")
-                print()
+            try: 
+                all_db = db.select_all_database()
+                pizzas = db.select_pizzas()
+                ingredientes = db.select_ingredientes()
+                usuarios = db.select_usuarios()
+                pedidos = db.select_pedidos()
+                detalle = db.select_detalles()
+            except Error as e:
+                print("SQLite Excepiton Error:", e)
+                print("Error al mostrar la base de datos")
+                all_db = []
+                pizzas = []
+                ingredientes = []
+                usuarios = []
+                pedidos = []
+                detalle = []
+
+        print("TABLA PIZZA")
+        print('|{0:24}||{1:24}||{2:24}|'.format('id', 'tamanio', 'precio'))
+        for row in pizzas:
+            for item in row:
+                print('|{0:<24}|'.format(item if item is not None else ''), end="")
+            print()
+        print()
+
+        print("TABLA INGREDIENTE")
+        print('|{0:24}||{1:24}||{2:24}||{3:24}|'.format('id', 'nombre', 'tamanio', 'precio'))
+        for row in ingredientes:
+            for item in row:
+                print('|{0:<24}|'.format(item if item is not None else ''), end="")
+            print()
+        print()
+
+        print("TABLA USUARIO")
+        print('|{0:24}||{1:24}|'.format('id', 'nombre'))
+        for row in usuarios:
+            for item in row:
+                print('|{0:<24}|'.format(item if item is not None else ''), end="")
+            print()
+        print()
+
+        print("TABLA PEDIDO")
+        print('|{0:24}||{1:24}||{2:24}||{3:24}|'.format('id', 'fecha', 'precio_total', 'fk_usuario'))
+        for row in pedidos:
+            for item in row:
+                print('|{0:<24}|'.format(item if item is not None else ''), end="")
+            print()
+        print()
+
+        print("TABLA DETALLE")
+        print('|{0:24}||{1:24}||{2:24}||{3:24}|'.format('fk_pedido', 'numero_pedido', 'fk_pizza', 'fk_ingrediente'))
+        for row in detalle:
+            for item in row:
+                print('|{0:<24}|'.format(item if item is not None else ''), end="")
+            print()
+        print()
+        
+        print("JOIN DE LAS TALBAS")
+        columnas = '|{0:15}||{1:20}||{2:15}||{3:15}||{4:15}||{5:15}||{6:15}||{7:15}||{8:15}||{9:15}|'
+        print(columnas.format('u.id', 'u.nombre', 'pe.id', 'pe.fecha', 'pe.precio_total', 'd.numero_pedido', 'pi.id', 'pi.tamanio', 'i.id', 'i.nombre'))
+        for row in all_db:
+            for i in range(len(row)):
+                if row[i] is not None and i == 1:
+                    print('|{0:<20}|'.format(row[i]), end="")
+                elif row[i] is not None:
+                    print('|{0:<15}|'.format(row[i]), end="")
+                elif i == 1:
+                    print('|', ' '*18, '|', end="")
+                else:
+                    print('|', ' '*13, '|', end="")
+            print()
+
+    def limpiar_database(self):
+        """ Borra los datos de las tablas de la base de datos """
+        db = self.db
+        with db.conn:
+            try: 
+                db.delete_detalles()
+                db.delete_pedidos()
+                db.delete_usuarios()
+                # db.delete_pizzas()
+                # db.delete_ingredientes()
+            except Error as e:
+                db.conn.rollback()
+                print("SQLite Excepiton Error:", e)
+                print("Error al limpiar la base de datos")
+            else:                    
+                db.conn.commit()

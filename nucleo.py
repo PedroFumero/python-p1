@@ -13,7 +13,7 @@ db = DatabaseController('misc/pizzeria_database.db')
 
 # Menú de opciones
 opt = '0'
-while opt != '5':
+while opt != '7':
     existe_db = db.tiene_datos()
     existe_csv = os.path.exists('misc/pizzeria.csv')
     print()
@@ -31,7 +31,15 @@ while opt != '5':
         # Cargar desde la base de datos
         registros = db.obtenerPedidos()
         pedidos = db.procesarRegistros(registros)
-    elif opt == '4' and existe_csv:
+    elif opt == '4' and existe_db:
+        # Mostrar la base de datos
+        db.print_datase()
+        continue
+    elif opt == '5' and existe_db:
+        # Limpiar base de datos
+        db.limpiar_database()
+        continue
+    elif opt == '6' and existe_csv:
         # Cargar desde un archivo .csv
         ruta_archivo = "misc/pizzeria.csv"
         with open(ruta_archivo, encoding='utf-8', newline='') as csvfile:
@@ -40,7 +48,7 @@ while opt != '5':
             # Elminamos la primera fila de headers
             registros = registros[1:]
         pedidos = db.procesarRegistros(registros)
-    elif opt == '5':
+    elif opt == '7':
         sys.exit()
 
 
