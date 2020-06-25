@@ -133,3 +133,20 @@ class GeneradorResumen():
         if save :
             self.guardarResumen(listaResumen)
         return listaResumen
+
+    def generarDiccionarioCobro(self):
+        """
+
+        """
+        dicCobro = {}
+        pedidos = self.agruparFecha()
+        for fecha in pedidos.keys():
+            dicCobro[fecha] = {}
+            for pedido in pedidos[fecha].keys():
+                nombre = pedidos[fecha][int(pedido)]['nombre']
+                deuda = pedidos[fecha][int(pedido)]['precio']
+                if nombre in dicCobro[fecha].keys():
+                    dicCobro[fecha][nombre] += deuda
+                else:
+                    dicCobro[fecha][nombre] = deuda
+        return dicCobro
