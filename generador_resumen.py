@@ -55,13 +55,14 @@ class GeneradorResumen():
             guarda en un archivo todo el resumen
         """
         orig_stdout = sys.stdout
-        f = open('misc/resumen.txt', 'w', encoding='utf-8')
+        if len(listaResumen):
+            f = open('misc/resumen.txt', 'w', encoding='utf-8')
 
-        sys.stdout = f
-        for resumen in listaResumen:
-            resumen.mostrarResumen()
-        sys.stdout = orig_stdout
-        f.close()
+            sys.stdout = f
+            for resumen in listaResumen:
+                resumen.mostrarResumen()
+            sys.stdout = orig_stdout
+            f.close()
 
     def mostrarPedidos(self):
         """
