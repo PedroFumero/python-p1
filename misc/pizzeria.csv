@@ -1,0 +1,23 @@
+usuario,fecha,precio_total,numero_pedido,pizza,ingrediente
+Rosa Quiñones,05/06/2020,10.0,0,personal,
+Luis Gómez,06/06/2020,11.75,0,personal,champiñones
+Carlos Valderrama,06/06/2020,20.55,0,mediana,champiñones
+Carlos Valderrama,06/06/2020,20.55,0,mediana,jamón
+Carlos Valderrama,06/06/2020,20.55,0,mediana,pimentón
+María Valdéz,06/06/2020,73.85,0,mediana,champiñones
+María Valdéz,06/06/2020,73.85,0,mediana,jamón
+María Valdéz,06/06/2020,73.85,0,mediana,pimentón
+María Valdéz,06/06/2020,73.85,1,familiar,doble queso
+María Valdéz,06/06/2020,73.85,1,familiar,aceitunas
+María Valdéz,06/06/2020,73.85,1,familiar,pepperoni
+María Valdéz,06/06/2020,73.85,2,familiar,champiñones
+María Valdéz,06/06/2020,73.85,2,familiar,pimentón
+María Valdéz,06/06/2020,73.85,2,familiar,aceitunas
+Rosa Quiñones,06/06/2020,12.3,0,personal,doble queso
+Rosa Quiñones,06/06/2020,12.3,0,personal,jamón
+Carmen Sarmiento,06/06/2020,28.0,0,familiar,jamón
+Carmen Sarmiento,06/06/2020,28.0,0,familiar,jamón
+Carmen Sarmiento,06/06/2020,28.0,0,familiar,pepperoni
+Carmen Sarmiento,06/06/2020,28.0,0,familiar,salchichón
+Alberto Sanchéz,05/06/2020,10.0,0,personal,
+Pedro Fumero,05/06/2020,10.0,0,personal,

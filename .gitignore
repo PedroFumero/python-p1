@@ -2,3 +2,6 @@ __pycache__/
 .vscode
 pizzeria_database.db
 resumen.txt
+misc\resumen.txt
+misc\pizzeria.csv
+misc\pizzeria_database.db
