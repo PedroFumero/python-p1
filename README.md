@@ -28,4 +28,5 @@ Integrantes:
 
 ## Funcionalidades adicoinales
 
+- Lista de prcios en un .json
 - Manejo de archivos .csv

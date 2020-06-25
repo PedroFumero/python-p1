@@ -48,7 +48,7 @@ for dia in resumenXfecha:
     dia.mostrarResumen()
 
 # Cargar datos a BD si no vienen de la BD
-if opt != '3':
+if opt != '3' and len(pedidos):
     print("¿Desa cargar estos datos en la base de datos?")
     print("Considere que cargar varias veces el mismo archivo puede generar datos duplicados")
     opt_db = input('[si/no]: ')
@@ -57,7 +57,7 @@ if opt != '3':
 
 # Guardar datos de BD a un arcvhivo .csv
 existe_db = db.tiene_datos()
-if opt != '4' and existe_db:
+if opt != '4' and existe_db and len(pedidos):
     print("¿Desa guardar los datos de la base de datos en un archivo .csv? (misc/pizzeria.csv)")
     opt_db = input('[si/no]: ')
     if opt_db.lower() in ['y', 'yes', 's', 'si', 'sí']:
