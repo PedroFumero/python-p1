@@ -99,7 +99,11 @@ class DatabaseController:
                 db.conn.commit()
 
     def obtenerPedidos(self):
-        """ Retorna un dict con los pedidos de la base de datos """
+        """ 
+            Obtiene los pedidos desde la BD
+            Hace un JOIN de las tablas de la base de datos y retorna los valores importantes
+                return: list rows
+        """
         db = self.db
         rows = None
         with db.conn:
@@ -109,16 +113,23 @@ class DatabaseController:
                 db.conn.rollback()
                 print("SQLite Excepiton Error:", e)
                 print("Error al extraer los registros de la base de datos")
+        return rows
 
-        if rows is not None:
+    @staticmethod
+    def procesarRegistros(rows):
+        """
+            Transforma los registros provenientes de BD o .csv al formato del resto del programa
+                return: dict dict_pedidos
+        """
+        if rows is not None and len(rows) > 0:
             pedidos = list()
             for row in rows:
                 nombre = row[0]
                 fecha = row[1]
                 # precio_total = row[2]
-                numero_pedido = row[3] # Util cuando un usuario tiene varios pedidos
+                numero_pedido = int(row[3]) # Util cuando un usuario tiene varios pedidos
                 tamanio = row[4]
-                ingrediente = row[5]
+                ingrediente = row[5] if row[5] != '' else None
                 
                 # Primer registro
                 if len(pedidos) == 0:
