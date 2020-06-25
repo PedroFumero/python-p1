@@ -29,7 +29,7 @@ elif opt == '3' and existe_db:
 elif opt == '4' and existe_csv:
     # Cargar desde un archivo .csv
     ruta_archivo = "misc/pizzeria.csv"
-    with open(ruta_archivo, encoding='utf-8') as csvfile:
+    with open(ruta_archivo, encoding='utf-8', newline='') as csvfile:
         pizzeria_reader = csv.reader(csvfile, delimiter=',')
         registros = list(pizzeria_reader)
         # Elminamos la primera fila de headers
@@ -61,7 +61,7 @@ if opt != '4' and existe_db and len(pedidos):
     print("¿Desa guardar los datos de la base de datos en un archivo .csv? (misc/pizzeria.csv)")
     opt_db = input('[si/no]: ')
     if opt_db.lower() in ['y', 'yes', 's', 'si', 'sí']:
-        with open('misc/pizzeria.csv', mode='w', encoding='utf-8') as csvfile:
+        with open('misc/pizzeria.csv', mode='w', encoding='utf-8', newline='') as csvfile:
             pizzeria_writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             registros = db.obtenerPedidos()
             registros.insert(0, "usuario,fecha,precio_total,numero_pedido,pizza,ingrediente".split(','))
