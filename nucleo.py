@@ -60,9 +60,8 @@ while opt != '5':
         for fecha in dicCobro:
             print (fecha + '\n')
             for k,v in dicCobro[fecha].items():
-                print(' ' + k,v)
+                print(' ' + k,str(v) +' UMs')
             print('\n')
-
         # Mostrar resumen
         # for dia in resumenXfecha:
         #     dia.mostrarResumen()
