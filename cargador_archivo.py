@@ -50,8 +50,8 @@ class Manejador:
         Retorna el nombre de un archivo válido
         """
         while True:
-            print("Por favor, introduzca el nombre del archivo. Ej: misc/pedidos1.pz")
-            ruta_archivo = input()
+            print("Por favor, introduzca el nombre del archivo.")
+            ruta_archivo = input('Ej: misc/pedidos1.pz: ')
             if not ruta_archivo.endswith('.pz'):
                 print('El archivo debe tener extensión .pz')
             else:
@@ -94,7 +94,7 @@ class Manejador:
         Valida que cualquier campo en el archivo no sea vacío
         """
         if not valor: 
-            print(f'Existe un error en el archivo. Un campo de {llave} esta vacío. Realice las correcciones y vuelva a ejecutar el programa.')
+            print(f'\n\nExiste un error en el archivo. Un campo de {llave} esta vacío. Realice las correcciones y vuelva a ejecutar el programa.')
             return True
         return False
     
@@ -105,7 +105,7 @@ class Manejador:
         if llave == 'nombre':    
             tiene_numero = any(map(str.isdigit, valor))
             if tiene_numero:
-                print(f'Existe un error en el archivo. Uno o más nombres contienen números. Realice las correcciones y vuelva a ejecutar el programa.')
+                print(f'\n\nExiste un error en el archivo. Uno o más nombres contienen números. Realice las correcciones y vuelva a ejecutar el programa.')
                 return True
             return False
     
@@ -116,7 +116,7 @@ class Manejador:
         if llave == 'fecha':
             match = re.search('([0-9|/]+)', valor)
             if not match:
-                print(f'Existe un error en el archivo. El formato de fecha debe ser dia/mes/anio. Realice las correcciones y vuelva a ejecutar el programa.')
+                print(f'\n\nExiste un error en el archivo. El formato de fecha debe ser dia/mes/anio. Realice las correcciones y vuelva a ejecutar el programa.')
                 return True
             return False
     

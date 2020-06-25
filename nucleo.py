@@ -9,12 +9,13 @@ from database_controller import DatabaseController
 
 # Inicializacion de la Base de Datos
 db = DatabaseController('misc/pizzeria_database.db')
-existe_db = db.tiene_datos()
-existe_csv = os.path.exists('misc/pizzeria.csv')
+
 
 # Menú de opciones
 opt = '0'
 while opt != '5':
+    existe_db = db.tiene_datos()
+    existe_csv = os.path.exists('misc/pizzeria.csv')
     print()
     print('-'*25)
     opt = Manejador().menu(0, existe_db, existe_csv)
@@ -44,34 +45,34 @@ while opt != '5':
 
 
     # Valida posibles errores en la lectura del archivo
-    if Manejador().validar(pedidos):
-        sys.exit()
+    if not Manejador().validar(pedidos):
+        # sys.exit()
         
-    total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
-    #generadorResumen(total_ordenes).mostrarPedidos()
-    resumenXfecha = GeneradorResumen(total_ordenes).generarListaResumen(True)
-    for dia in resumenXfecha:
-        dia.mostrarResumen()
+        total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
+        #generadorResumen(total_ordenes).mostrarPedidos()
+        resumenXfecha = GeneradorResumen(total_ordenes).generarListaResumen(True)
+        for dia in resumenXfecha:
+            dia.mostrarResumen()
 
-    # Cargar datos a BD si no vienen de la BD
-    if opt != '3' and len(pedidos):
-        print("¿Desea cargar estos datos en la base de datos?")
-        print("Considere que cargar varias veces el mismo archivo puede generar datos duplicados")
-        opt_db = input('[si/no]: ')
-        if opt_db.lower() in ['y', 'yes', 's', 'si', 'sí']:
-            db.cargar_registros(pedidos)
+        # Cargar datos a BD si no vienen de la BD
+        if opt != '3' and len(pedidos):
+            print("¿Desea cargar estos datos en la base de datos?")
+            print("Considere que cargar varias veces el mismo archivo puede generar datos duplicados")
+            opt_db = input('[si/no]: ')
+            if opt_db.lower() in ['y', 'yes', 's', 'si', 'sí']:
+                db.cargar_registros(pedidos)
 
-    # Guardar datos de BD a un archivo .csv
-    existe_db = db.tiene_datos()
-    if opt != '4' and existe_db and len(pedidos):
-        print("¿Desea guardar los datos de la base de datos en un archivo .csv? (misc/pizzeria.csv)")
-        opt_db = input('[si/no]: ')
-        if opt_db.lower() in ['y', 'yes', 's', 'si', 'sí']:
-            with open('misc/pizzeria.csv', mode='w', encoding='utf-8') as csvfile:
-                pizzeria_writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                registros = db.obtenerPedidos()
-                registros.insert(0, "usuario,fecha,precio_total,numero_pedido,pizza,ingrediente".split(','))
-                pizzeria_writer.writerows(registros)
+        # Guardar datos de BD a un archivo .csv
+        existe_db = db.tiene_datos()
+        if opt != '4' and existe_db and len(pedidos):
+            print("¿Desea guardar los datos de la base de datos en un archivo .csv? (misc/pizzeria.csv)")
+            opt_db = input('[si/no]: ')
+            if opt_db.lower() in ['y', 'yes', 's', 'si', 'sí']:
+                with open('misc/pizzeria.csv', mode='w', encoding='utf-8') as csvfile:
+                    pizzeria_writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    registros = db.obtenerPedidos()
+                    registros.insert(0, "usuario,fecha,precio_total,numero_pedido,pizza,ingrediente".split(','))
+                    pizzeria_writer.writerows(registros)
 
-    #print(pedidos)
-    #db.print_datase()
+        #print(pedidos)
+        #db.print_datase()
