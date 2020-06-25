@@ -56,11 +56,24 @@ while opt != '7':
     if not Manejador().validar(pedidos):
         # sys.exit()
         
+        # Procesar pedidos de los clientes
         total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
-        #generadorResumen(total_ordenes).mostrarPedidos()
-        resumenXfecha = GeneradorResumen(total_ordenes).generarListaResumen(True)
-        for dia in resumenXfecha:
-            dia.mostrarResumen()
+        # Crear un generador con las ordenes procesadas
+        generador = GeneradorResumen(total_ordenes)
+        # Generar lista resumen   True = guardar archivo
+        resumenXfecha = generador.generarListaResumen(True)
+
+        # Mostrar cuanto cobrar a cada cliente
+        dicCobro = generador.generarDiccionarioCobro()
+        for fecha in dicCobro:
+            print (fecha + '\n')
+            for k,v in dicCobro[fecha].items():
+                print(' ' + k,str(v) +' UMs')
+            print('\n')
+        # Mostrar resumen
+        # for dia in resumenXfecha:
+        #     dia.mostrarResumen()
+
 
         # Cargar datos a BD si no vienen de la BD
         if opt != '3' and len(pedidos):
