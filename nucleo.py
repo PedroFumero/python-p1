@@ -13,7 +13,7 @@ db = DatabaseController('misc/pizzeria_database.db')
 
 # Menú de opciones
 opt = '0'
-while opt != '7':
+while opt != '8':
     existe_db = db.tiene_datos()
     existe_csv = os.path.exists('misc/pizzeria.csv')
     print()
@@ -48,7 +48,7 @@ while opt != '7':
             # Elminamos la primera fila de headers
             registros = registros[1:]
         pedidos = db.procesarRegistros(registros)
-    elif opt == '7':
+    elif opt == '8':
         sys.exit()
 
 
@@ -64,15 +64,19 @@ while opt != '7':
         resumenXfecha = generador.generarListaResumen(True)
 
         # Mostrar cuanto cobrar a cada cliente
-        dicCobro = generador.generarDiccionarioCobro()
-        for fecha in dicCobro:
-            print (fecha + '\n')
-            for k,v in dicCobro[fecha].items():
-                print(' ' + k,str(v) +' UMs')
-            print('\n')
-        # Mostrar resumen
-        # for dia in resumenXfecha:
-        #     dia.mostrarResumen()
+        
+        if opt == '1' or opt == '2':
+            dicCobro = generador.generarDiccionarioCobro()
+            for fecha in dicCobro:
+                print (fecha + '\n')
+                for k,v in dicCobro[fecha].items():
+                    print(' ' + k,str(v) +' UMs')
+                print('\n')
+            
+        if opt == '7':   
+            # Mostrar resumen
+            for dia in resumenXfecha:
+                dia.mostrarResumen()
 
         # Cargar datos a BD si no vienen de la BD
         if opt != '3' and len(pedidos):

@@ -66,7 +66,7 @@ class Manejador:
         Menu de opciones del programa
         """
         while(
-                opt not in ['1', '2', '3', '4', '5', '6', '7'] 
+                opt not in ['1', '2', '3', '4', '5', '6', '7', '8'] 
                 or (opt in ['3', '4', '5'] and not existe_db) 
                 or (opt == '6' and not existe_csv)
             ):
@@ -78,7 +78,8 @@ class Manejador:
                 print(f'5 - Limpiar base de datos (misc/pizzeria_database.db)')
             if existe_csv:
                 print(f'6 - Cargar desde un archivo .csv (misc/pizzeria.csv)')
-            print('7 - Salir')
+            print('7 - Mostrar resumen PDF')
+            print('8 - Salir')
             opt = input('Opción: ')
         return opt
             

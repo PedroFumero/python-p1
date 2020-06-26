@@ -1,10 +1,47 @@
 Fecha: 05/06/2020
-Total: 10 UMs
+Total: 300 UMs
 
 Ventas por pizza (sin incluir adicionales):
 
 Tamaño                 Unidades        MontoUMs
-Personal                      1              10
+Personal                     30             300
+
+Ventas por Ingrediente:
+
+Ingredientes           Unidades        MontoUMs
+
+
+
+Fecha: 06/06/2020
+Total: 2196.7499999999986 UMs
+
+Ventas por pizza (sin incluir adicionales):
+
+Tamaño                 Unidades        MontoUMs
+Personal                     30             300
+Mediana                      30             450
+Familiar                     45             900
+
+Ventas por Ingrediente:
+
+Ingredientes           Unidades        MontoUMs
+Champiñones                  60 125.24999999999994
+Jamón                        75           135.0
+Pimentón                     45            82.5
+Doble Queso                  30            37.5
+Aceitunas                    30 77.99999999999999
+Pepperoni                    30 56.99999999999997
+Salchichón                   15 31.50000000000001
+
+
+
+Fecha: 25/06/2020
+Total: 150 UMs
+
+Ventas por pizza (sin incluir adicionales):
+
+Tamaño                 Unidades        MontoUMs
+Personal                     15             150
 
 Ventas por Ingrediente:
 
