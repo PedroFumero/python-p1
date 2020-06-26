@@ -61,18 +61,24 @@ class Manejador:
                     print(ruta_archivo, "no fue localizado")
     
     @staticmethod
-    def menu(opt, existe_db = False, existe_csv = False):
+    def menu(opt, existe_db=False, existe_csv=False):
         """
         Menu de opciones del programa
         """
-        while(opt not in ['1', '2', '3', '4', '5'] or (opt == '3' and not existe_db) or (opt == '4' and not existe_csv)):
+        while(
+                opt not in ['1', '2', '3', '4', '5', '6', '7'] 
+                or (opt in ['3', '4', '5'] and not existe_db) 
+                or (opt == '6' and not existe_csv)
+            ):
             print(f'1 - Introduzca el nombre de un archivo para cargar.')
             print(f'2 - Cargar todos los archivos .pz en el directorio /misc/')
             if existe_db:
                 print(f'3 - Cargar datos desde la base de datos (misc/pizzeria_database.db)')
+                print(f'4 - Mostrar base de datos (misc/pizzeria_database.db)')
+                print(f'5 - Limpiar base de datos (misc/pizzeria_database.db)')
             if existe_csv:
-                print(f'4 - Cargar desde un archivo .csv (misc/pizzeria.csv)')
-            print('5 - Salir')
+                print(f'6 - Cargar desde un archivo .csv (misc/pizzeria.csv)')
+            print('7 - Salir')
             opt = input('Opción: ')
         return opt
             

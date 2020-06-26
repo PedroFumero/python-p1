@@ -13,7 +13,7 @@ db = DatabaseController('misc/pizzeria_database.db')
 
 # Menú de opciones
 opt = '0'
-while opt != '5':
+while opt != '7':
     existe_db = db.tiene_datos()
     existe_csv = os.path.exists('misc/pizzeria.csv')
     print()
@@ -31,16 +31,24 @@ while opt != '5':
         # Cargar desde la base de datos
         registros = db.obtenerPedidos()
         pedidos = db.procesarRegistros(registros)
-    elif opt == '4' and existe_csv:
+    elif opt == '4' and existe_db:
+        # Mostrar la base de datos
+        db.print_datase()
+        continue
+    elif opt == '5' and existe_db:
+        # Limpiar base de datos
+        db.limpiar_database()
+        continue
+    elif opt == '6' and existe_csv:
         # Cargar desde un archivo .csv
         ruta_archivo = "misc/pizzeria.csv"
         with open(ruta_archivo, encoding='utf-8', newline='') as csvfile:
-            pizzeria_reader = csv.reader(csvfile, delimiter=',')
+            pizzeria_reader = csv.reader(csvfile, delimiter=';')
             registros = list(pizzeria_reader)
             # Elminamos la primera fila de headers
             registros = registros[1:]
         pedidos = db.procesarRegistros(registros)
-    elif opt == '5':
+    elif opt == '7':
         sys.exit()
 
 
@@ -66,7 +74,6 @@ while opt != '5':
         # for dia in resumenXfecha:
         #     dia.mostrarResumen()
 
-
         # Cargar datos a BD si no vienen de la BD
         if opt != '3' and len(pedidos):
             print("¿Desea cargar estos datos en la base de datos?")
@@ -77,12 +84,12 @@ while opt != '5':
 
         # Guardar datos de BD a un archivo .csv
         existe_db = db.tiene_datos()
-        if opt != '4' and existe_db and len(pedidos):
+        if opt != '6' and existe_db and len(pedidos):
             print("¿Desea guardar los datos de la base de datos en un archivo .csv? (misc/pizzeria.csv)")
             opt_db = input('[si/no]: ')
             if opt_db.lower() in ['y', 'yes', 's', 'si', 'sí']:
                 with open('misc/pizzeria.csv', mode='w', encoding='utf-8', newline='') as csvfile:
-                    pizzeria_writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    pizzeria_writer = csv.writer(csvfile, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                     registros = db.obtenerPedidos()
                     registros.insert(0, "usuario,fecha,precio_total,numero_pedido,pizza,ingrediente".split(','))
                     pizzeria_writer.writerows(registros)
