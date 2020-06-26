@@ -13,7 +13,7 @@ db = DatabaseController('misc/pizzeria_database.db')
 
 # Menú de opciones
 opt = '0'
-while opt != '7':
+while opt != '8':
     existe_db = db.tiene_datos()
     existe_csv = os.path.exists('misc/pizzeria.csv')
     print()
@@ -62,7 +62,6 @@ while opt != '7':
 
     # Valida posibles errores en la lectura del archivo
     if not Manejador().validar(pedidos):
-        # sys.exit()
         
         # Procesar pedidos de los clientes
         total_ordenes = ProcesadorOrdenes().procesarPedidos(pedidos)
