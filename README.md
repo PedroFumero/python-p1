@@ -7,6 +7,9 @@ Integrantes:
   - Pedro Fumero (Alias: PedroFumero)
   - José Andrés Fernández (Alias: Joseandresfr1)
   - José Manuel Romero (Alias: josemrp)
+  
+## Enlace del informe
+https://docs.google.com/document/d/1gcjmAiJTfmTHmBBBPXmXA9imCBoFdR9-h3CTyfM-5Do/edit?usp=sharing
 
 ## TODO
 
@@ -26,7 +29,7 @@ Integrantes:
 - [x] Manejo de errores
 - [ ] Informe final
 
-## Funcionalidades adicoinales
+## Funcionalidades adicionales
 
-- Lista de prcios en un .json
+- Lista de precios en un .json
 - Manejo de archivos .csv
