@@ -12,3 +12,26 @@ Ingredientes           Unidades        MontoUMs
 
 
 
+Fecha: 06/06/2020
+Total: 146.45 UMs
+
+Ventas por pizza (sin incluir adicionales):
+
+Tamaño                 Unidades        MontoUMs
+Personal                      2              20
+Mediana                       2              30
+Familiar                      3              60
+
+Ventas por Ingrediente:
+
+Ingredientes           Unidades        MontoUMs
+Champiñones                   4            8.35
+Jamón                         5             9.0
+Pimentón                      3             5.5
+Doble Queso                   2             2.5
+Aceitunas                     2             5.2
+Pepperoni                     2             3.8
+Salchichón                    1             2.1
+
+
+
